@@ -20,4 +20,17 @@ public class ProdService {
     public List<Product> getAllProducts() {
         return repo.findAll();
     }
+
+
+    public Product getProductById(int prodId) {
+        return repo.findById(prodId).orElse(new Product());
+    }
+
+    public void updateProduct(Product prod){
+        repo.save(prod);
+    }
+
+    public void deleteProduct(int prodId){
+        repo.deleteById(prodId);
+    }
 }
