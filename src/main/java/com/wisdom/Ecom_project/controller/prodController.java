@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -49,19 +50,6 @@ public class prodController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
    }
 
-   @PutMapping("/products")
-    public void updateProduct(Product prod){
-
-        service.updateProduct(prod);
-   }
-
-   @DeleteMapping("/products/{prodId}")
-    public void deleteProduct(@PathVariable int prodId)
-   {
-
-       service.deleteProduct(prodId);
-   }
-
    @GetMapping("/products/{productId}/image")
     public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
         Product product = service.getProductById(productId);
@@ -70,6 +58,32 @@ public class prodController {
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(product.getImageType()))
                 .body(imageFile);
+   }
+
+   @PutMapping("/products/{id}")
+   public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestPart Product prod,
+                                               @RequestPart MultipartFile imageFile){
+       Product product2 = null;
+       try {
+           product2 = service.updateProduct(id, prod, imageFile);
+       } catch (IOException e) {
+           return new ResponseEntity<>("Failed to update", HttpStatus.BAD_REQUEST);
+       }
+       if(product2 != null)
+          return new ResponseEntity<>("Updated", HttpStatus.OK);
+      else
+          return new ResponseEntity<>("Failed to update", HttpStatus.BAD_REQUEST);
+   }
+
+   @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id){
+        Product product = service.getProductById(id);
+        if(product != null) {
+            service.deleteProduct(id);
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
    }
 
 }
