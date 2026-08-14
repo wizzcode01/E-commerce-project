@@ -51,23 +51,25 @@ public class prodController {
 
    @PutMapping("/products")
     public void updateProduct(Product prod){
+
         service.updateProduct(prod);
    }
 
    @DeleteMapping("/products/{prodId}")
     public void deleteProduct(@PathVariable int prodId)
    {
-      service.deleteProduct(prodId);
+
+       service.deleteProduct(prodId);
    }
 
-//   @GetMapping("/product/{productId}/image")
-//    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
-//        Product product = service.getProductById(productId);
-//        byte[] imageFile = product.getImageDate();
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.valueOf(product.getImageType()))
-//                .body(imageFile);
-//   }
+   @GetMapping("/products/{productId}/image")
+    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
+        Product product = service.getProductById(productId);
+        byte[] imageFile = product.getImageDate();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(product.getImageType()))
+                .body(imageFile);
+   }
 
 }
