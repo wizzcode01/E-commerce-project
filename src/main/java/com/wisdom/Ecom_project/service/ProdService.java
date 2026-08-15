@@ -34,10 +34,22 @@ public class ProdService {
 
        Product existingProduct = repo.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id " + id));
 
-        prod.setImageDate(imageFile.getBytes());
-        prod.setImageName(imageFile.getOriginalFilename());
-        prod.setImageType(imageFile.getContentType());
-        return repo.save(prod);
+       existingProduct.setName(prod.getName());
+       existingProduct.setDescription(prod.getDescription());
+        existingProduct.setBrandName(prod.getBrandName());
+        existingProduct.setPrice(prod.getPrice());
+        existingProduct.setCategory(prod.getCategory());
+        existingProduct.setQuantity(prod.getQuantity());
+        existingProduct.setAvailable(prod.isAvailable());
+        existingProduct.setReleasedDate(prod.getReleasedDate());
+
+        if(imageFile != null && !imageFile.isEmpty()){
+            existingProduct.setImageDate(imageFile.getBytes());
+            existingProduct.setImageName(imageFile.getOriginalFilename());
+            existingProduct.setImageType(imageFile.getContentType());
+        }
+
+        return repo.save(existingProduct);
     }
 
         public void deleteProduct(int prodId){
