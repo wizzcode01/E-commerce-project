@@ -31,14 +31,17 @@ public class ProdService {
     }
 
     public Product updateProduct(int id, Product prod, MultipartFile imageFile) throws IOException {
-       prod.setImageDate(imageFile.getBytes());
-       prod.setImageName(imageFile.getOriginalFilename());
-       prod.setImageType(imageFile.getContentType());
-       return repo.save(prod);
+
+       Product existingProduct = repo.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id " + id));
+
+        prod.setImageDate(imageFile.getBytes());
+        prod.setImageName(imageFile.getOriginalFilename());
+        prod.setImageType(imageFile.getContentType());
+        return repo.save(prod);
     }
 
-    public void deleteProduct(int prodId){
+        public void deleteProduct(int prodId){
+            repo.deleteById(prodId);
+        }
 
-        repo.deleteById(prodId);
-    }
 }
