@@ -53,6 +53,7 @@ public class ProdService {
     }
 
         public void deleteProduct(int prodId){
+
             repo.deleteById(prodId);
         }
 
