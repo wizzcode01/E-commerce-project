@@ -13,7 +13,7 @@ public interface ProdRepository extends JpaRepository<Product, Integer>{
     @Query("SELECT p from Product p WHERE "+
     "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(p.brand) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(p.brandName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(p.category) LIKE LOWER(CONCAT('%', :keyword, '%'))"
     )
 
