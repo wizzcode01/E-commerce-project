@@ -2,6 +2,7 @@ package com.wisdom.Ecom_project.controller;
 
 import com.wisdom.Ecom_project.RequestDto.RegisterRequestDto;
 import com.wisdom.Ecom_project.model.Users;
+import com.wisdom.Ecom_project.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDto registrationData){
-        return service.register(user);
+        return UserService.register(registrationData);
+        ResponseEntity.ok("Users registered successfully");
     }
 
     @GetMapping("/login")
