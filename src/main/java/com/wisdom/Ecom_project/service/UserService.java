@@ -13,9 +13,9 @@ public class UserService {
     @Autowired
     private UsersRepo repo;
 
-
-    public static void register(RegisterRequestDto dto){
+    public void register(RegisterRequestDto dto){
         Users databaseUser = new Users(); // to create a new object from blueprint of Users
         databaseUser.setName(dto.getName());
+        databaseUser.setEmail(dto.getEmail());
     }
 }
