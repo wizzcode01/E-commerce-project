@@ -17,11 +17,14 @@ import java.util.Map;
 @Service
 public class jwtService {
 
-    private String secretKey = "";
+    private String secretKey = ""; // A variable to hold our server's master security password.
     public jwtService(){
         try{
+            // a built int java security tool. we tell it to use HmacSHA256 algorithm
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+            // generate a strong, highly random cryptographic key object using keygen
             SecretKey sk = keyGen.generateKey();
+            // turn that binary key object into a safe, readable text base64 so we can store it in our variable
             secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
         }catch(NoSuchAlgorithmException e){
             throw new RuntimeException(e);
@@ -29,25 +32,29 @@ public class jwtService {
     }
 
     public String generateToken(String userEmail){
+       // create a empty map to hold custom claims like role: admin or user
         Map<String, Object> claims = new HashMap<>();
 
+        // Jwts.builder() is a builder tool provided by io.jsonwebtoken library
         return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(userEmail)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 *30))
-                .and()
-                .signWith(getKey())
-                .compact();
+                .claims()// open up the claims configurator
+                .add(claims)// add our map of custom claims (currently empty).
+                .subject(userEmail)// set the standard "sub" claim to the user email or username
+                .issuedAt(new Date(System.currentTimeMillis()))// setting the time
+                .expiration(new Date(System.currentTimeMillis() + 60 * 60 *30))// setting time expiration
+                .and() // switches back to the main builder setting
+                .signWith(getKey()) // we use our secret key to seal it
+                .compact(); //squishes all this JSON data into a single long string seperated by dots
     }
 
     private SecretKey getKey(){
+        // JJWT library cannot use plain text so we decode it back to raw bytes.
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        // we hand those bytes to the keys helper to turn them back into a secure cryptographic key object
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
+    // when a request comes in we have to read the token. these three methods works hand in hand
     public String extractUserEmail(String token){
-        return extractClaim(token, Claims::getSubject);
+        return extractCliam(token, Claims::getSubject);
     }
 }
