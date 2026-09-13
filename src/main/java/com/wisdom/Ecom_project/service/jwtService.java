@@ -56,11 +56,11 @@ public class jwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     // when a request comes in we have to read the token. these three methods works hand in hand
-    public String extractUserEmail(String token){
-        return extractCliam(token, Claims::getSubject);
+    public static String extractUserEmail(String token){
+        return extractClaim(token, Claims::getSubject);
     }
 
-    private <T> T extractCliam(String token, Function<Claims, T> claimResolver){
+    private <T> T extractClaim(String token, Function<Claims, T> claimResolver){
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
     }
@@ -83,7 +83,7 @@ public class jwtService {
         return claims.getExpiration();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails){
+    public static boolean validateToken(String token, UserDetails userDetails){
         final String userEmail = extractUserEmail(token);
         return (userEmail.equals(userDetails.getUsername()));
     }

@@ -1,5 +1,6 @@
 package com.wisdom.Ecom_project.config;
 
+import com.wisdom.Ecom_project.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,9 @@ public class SecurityFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
   @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
