@@ -1,4 +1,4 @@
-package com.wisdom.Ecom_project.RequestDto;
+package com.wisdom.Ecom_project.dto.RequestDto;
 
 public class LoginRequestDto {
     private String email;

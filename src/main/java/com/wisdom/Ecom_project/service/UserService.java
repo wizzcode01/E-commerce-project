@@ -1,10 +1,9 @@
 package com.wisdom.Ecom_project.service;
 
-import com.wisdom.Ecom_project.RequestDto.LoginRequestDto;
-import com.wisdom.Ecom_project.RequestDto.RegisterRequestDto;
+import com.wisdom.Ecom_project.dto.RequestDto.LoginRequestDto;
+import com.wisdom.Ecom_project.dto.RequestDto.RegisterRequestDto;
 import com.wisdom.Ecom_project.model.Users;
 import com.wisdom.Ecom_project.repository.UsersRepo;
-import org.h2.engine.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

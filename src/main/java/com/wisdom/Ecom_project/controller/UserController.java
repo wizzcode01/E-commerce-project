@@ -1,6 +1,6 @@
 package com.wisdom.Ecom_project.controller;
 
-import com.wisdom.Ecom_project.RequestDto.RegisterRequestDto;
+import com.wisdom.Ecom_project.dto.RequestDto.RegisterRequestDto;
 import com.wisdom.Ecom_project.model.Users;
 import com.wisdom.Ecom_project.service.UserService;
 import org.springframework.http.ResponseEntity;
