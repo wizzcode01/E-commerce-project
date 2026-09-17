@@ -1,6 +1,7 @@
 package com.wisdom.Ecom_project.exception;
 
 import com.wisdom.Ecom_project.dto.ResponseDto.responseDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<responseDto<Void>> handleEmailConflict(EmailAlreadyExistsException email){
-        responseDto
-    }
-}
+   @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<responseDto<Void>> handleEmailConflicts(EmailAlreadyExistsException email){
+       responseDto<Void> response = new responseDto<>(email.getMessage());
+
+       return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+   }
+ }
