@@ -1,9 +1,12 @@
 package com.wisdom.Ecom_project.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import jdk.jfr.Enabled;
 
-@Enabled
+@Entity
 @Table(name = "users",
       uniqueConstraints = {
         @UniqueConstraint(columnNames = "email") // Ensures mathematical uniqueness of emails at the database layer
