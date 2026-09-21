@@ -15,4 +15,11 @@ public class GlobalExceptionHandler {
 
        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
    }
+
+   @ExceptionHandler(InvalidRefreshTokenException.class)
+    public ResponseEntity<responseDto<Void>> handleInvalidRefreshToken(InvalidRefreshTokenException refreshToken){
+       responseDto<Void> response = new responseDto<>(refreshToken.getMessage());
+
+       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+   }
  }
