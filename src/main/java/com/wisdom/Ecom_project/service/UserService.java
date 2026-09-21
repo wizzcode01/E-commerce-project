@@ -2,7 +2,9 @@ package com.wisdom.Ecom_project.service;
 
 import com.wisdom.Ecom_project.dto.RequestDto.LoginRequestDto;
 import com.wisdom.Ecom_project.dto.RequestDto.RegisterRequestDto;
+import com.wisdom.Ecom_project.dto.ResponseDto.AuthResponsePayload;
 import com.wisdom.Ecom_project.exception.EmailAlreadyExistsException;
+import com.wisdom.Ecom_project.model.RefreshToken;
 import com.wisdom.Ecom_project.model.Users;
 import com.wisdom.Ecom_project.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     public void register(RegisterRequestDto dto){
         if(repo.existsByEmail(dto.getEmail())){
             throw new EmailAlreadyExistsException("An account with this email already exists.");
@@ -44,16 +49,21 @@ public class UserService {
         repo.save(databaseUser);
     }
 
-    public String verifyLogin(LoginRequestDto loginRequestDto){
+    public AuthResponsePayload verifyLogin(LoginRequestDto loginRequestDto){
         UsernamePasswordAuthenticationToken unverifiedToken = new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
         Authentication authentication = authManager.authenticate(unverifiedToken);
 
         if(authentication.isAuthenticated()){
-            return jwt.generateToken(loginRequestDto.getEmail());
+            String accessToken = jwt.generateToken(loginRequestDto.getEmail());
+
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginRequestDto.getEmail());
+
+            return new AuthResponsePayload(accessToken, refreshToken.getToken());
+
         }
 
-        return "fail";
+        return null;
     }
 
 
