@@ -22,4 +22,11 @@ public class GlobalExceptionHandler {
 
        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
    }
- }
+
+    @ExceptionHandler(InsufficientWalletBalanceException.class)
+    public ResponseEntity<responseDto<Void>> handleInsufficientBalance(InsufficientWalletBalanceException ex) {
+        responseDto<Void> response = new responseDto<>(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+}
