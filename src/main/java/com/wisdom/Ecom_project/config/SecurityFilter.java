@@ -34,6 +34,14 @@ public class SecurityFilter {
             .authorizeHttpRequests(request -> request
                     .requestMatchers("/register", "/login")
                     .permitAll()
+
+                    .requestMatchers("/admin").hasRole("ADMIN")
+                    .requestMatchers("/food-vendor").hasRole("FOOD_VENDOR")
+                    .requestMatchers("/rider").hasRole("RIDER")
+                    .requestMatchers("/dry-cleaner").hasRole("DRY_CLEANER")
+                    .requestMatchers("/home-services").hasRole("HOME_SERVICES")
+
+                    .requestMatchers("/wallet", "/orders").hasAllRoles("CUSTOMER", "ADMIN")
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
